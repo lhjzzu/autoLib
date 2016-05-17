@@ -13,8 +13,8 @@ def buildProject(target):
     (stdoutdata, stderrdata) = process.communicate()
     buildDir = stdoutdata.strip() + '/build'
     print "buildDir: " + buildDir
-    osLibPath = '%s/Release-iphoneos/libStaticLib.a' %(buildDir)
-    simulatorLibPath = '%s/Release-iphonesimulator/libStaticLib.a' %(buildDir)
+    osLibPath = '%s/Release-iphoneos/lib%s.a' %(buildDir,target)
+    simulatorLibPath = '%s/Release-iphonesimulator/lib%s.a' %(buildDir,target)
     print (osLibPath)
     print (simulatorLibPath)
 
@@ -29,7 +29,10 @@ def buildProject(target):
     buildLibCmd = 'lipo -create %s %s -o %s' %(osLibPath,simulatorLibPath,output)
     process = subprocess.Popen(buildLibCmd, shell=True)
     process.wait()
+    code =  process.returncode
     print "output: " + output
+    codeStr = '%d' %(code)
+    print "code: " + codeStr
 
 
 def xcbuild(options):
